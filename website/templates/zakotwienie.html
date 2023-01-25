@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Zakotwienie{% endblock %}
+
+{% block content %}
+
+<br />
+<h1 align="center">Zakotwienie</h1>
+
+
+<form method="POST">
+	<div class="form-group">
+		<label for="strength_class">Klasa wytrzymałości betonu:</label>
+		<select
+			class="form-control"
+			id="strength_class"
+			name="strength_class">
+			{% for strengthclass in strength_classes %}
+				<option>{{ strengthclass }}</option>
+			{% endfor %}
+
+		</select>
+		
+	</div>
+
+		<div class="form-group">
+		<label for="diameter">Średnica pręta:</label>
+		<select
+			class="form-control"
+			id="diameter"
+			name="diameter">
+			{% for diameter in diameters %}
+				<option>{{ diameter }}</option>
+			{% endfor %}
+		</select>
+		
+	</div>
+
+	<div class="form-group">
+		<label for="conditions">Warunki przyczepności i pozycji pręta podczas betonowania:</label>
+		<select
+			class="form-control"
+			id="conditions"
+			name="conditions">
+			<option>dobre</option>
+			<option>słabe</option>
+		</select>
+	
+<br />
+
+<p>
+<button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#warunki_betonowania_collapse" aria-expanded="false" aria-controls="warunki_betonowania_collapse">
+    Pokaż warunki przyczepności
+</button>
+</p>
+
+<div class="collapse" id="warunki_betonowania_collapse">
+  <div class="card card-body">
+
+    <img alt="Warunki betonowania" src="/static/warunki_betonowania.jpg" style="max-width: 60%; height: auto;">
+
+  </div>
+</div>
+
+
+	</div>
+
+	<div class="form-group">
+		<label for="des_sit">Rozpatrywana sytuacja obliczeniowa:</label>
+		<select
+			class="form-control"
+			id="des_sit"
+			name="des_sit">
+			<option>trwała i przejściowa</option>
+			<option>wyjątkowa</option>
+		</select>
+		
+	</div>
+
+
+	<button type="submit" class="btn btn-primary btn-sm">Oblicz zakotwienie</button>
+
+
+
+
+<h6 align="left">Podstawowa wymagana długość zakotwienia wynosi: {{l_brqd}} mm</h6>
+
+
+</form>
+
+
+
+
+
+{% endblock %}
+
+
+
