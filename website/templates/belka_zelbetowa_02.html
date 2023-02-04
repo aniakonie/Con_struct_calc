@@ -53,47 +53,19 @@ Szerokość przekroju: {{ width }} cm<br>
 		
 	</div>
 
-
-	<div class="row">
-		<div class="col">
-			<label for="diameter">Średnica pręta głównego (typ 1, rząd 1)</label>
-			<select
-				class="form-control"
-				id="diameter"
-				name="diameter">
-				{% for diameter in diameters %}
-					<option>{{ diameter }}</option>
-				{% endfor %}
-			</select>
-		</div>
-
-		<div class="col">
-			<label for="quantity">Liczba sztuk prętów (typ 1, rząd 1)</label>
-			<select
-				class="form-control"
-				id="quantity"
-				name="quantity">
-				{% for option in range(2, 9) %}
-					<option>{{ option }}</option>
-				{% endfor %}
-			</select>
-		</div>
-	
-		<div class="col">
-			<label for="cover">Otulina zbrojenia (typ 1, rząd 1)</label>
-			<input
+	<div class="form-group">
+		<label for="cover">Otulina zbrojenia:</label>
+		<input
 				type="text"
 				class="form-control"
 				id="cover"
 				name="cover"
 				placeholder="c [mm]"
-			/>
-		</div>
-	</div><br>
-
+		/>
+	</div>
 
 	<div class="form-group">
-			<label for="diameter_s">Średnica strzemion</label>
+			<label for="diameter_s">Średnica strzemion:</label>
 			<select
 				class="form-control"
 				id="diameter_s"
@@ -104,6 +76,62 @@ Szerokość przekroju: {{ width }} cm<br>
 					<option>12</option>
 			</select>
 	</div>
+
+
+	<div class="row">
+		<div class="col">
+			<label for="diameter11">Średnica pręta głównego (typ 1, rząd 1):</label>
+			<select
+				class="form-control"
+				id="diameter11"
+				name="diameter11">
+				{% for diameter in diameters %}
+					<option>{{ diameter }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="col">
+			<label for="quantity11">Liczba sztuk prętów (typ 1, rząd 1):</label>
+			<select
+				class="form-control"
+				id="quantity11"
+				name="quantity11">
+				{% for option in range(2, 9) %}
+					<option>{{ option }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	
+	</div><br>
+
+	<div class="row">
+		<div class="col">
+			<label for="diameter12">Średnica pręta głównego (typ 2, rząd 1):</label>
+			<select
+				class="form-control"
+				id="diameter12"
+				name="diameter12">
+				{% for diameter in diameters %}
+					<option>{{ diameter }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="col">
+			<label for="quantity12">Liczba sztuk prętów (typ 2, rząd 1):</label>
+			<select
+				class="form-control"
+				id="quantity12"
+				name="quantity12">
+				{% for option in range(0, 9) %}
+					<option>{{ option }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	
+	</div><br>
+
 
 
 	<button type="submit" class="btn btn-primary btn-sm">Sprawdź nośność przekroju</button>
