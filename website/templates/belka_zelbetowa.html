@@ -8,12 +8,14 @@
 <h1 align="center">Belka żelbetowa - wymiarowanie</h1><br>
 
 
-<h3 align="left">Schemat statyczny i siły wewnętrzne</h3><br>
+<h2 align="left" style="color: black">Dane początkowe</h2><br>
+
+<h5 align="left" style="color: rgb(0, 153, 255)">Schemat statyczny i dane geometryczne</h5><br>
 
 
 
 <h6 align="left">Wybierz schemat statyczny:</h6>
-<form method="POST">
+<form method="POST" id="main_data">
 
 	<div class="form-check">
 	  <input class="form-check-input" type="radio" name="static_scheme" id="swobodnie podparta" value="swobodnie podparta" checked>
@@ -38,17 +40,6 @@
 			id="length"
 			name="length"
 			placeholder="l [m]"
-		/>
-		
-	</div>
- 	<div class="form-group">
-		<label for="q_def">Obciążenie równomiernie rozłożone (wartość obliczeniowa)</label>
-		<input
-			type="text"
-			class="form-control"
-			id="q_def"
-			name="q_def"
-			placeholder="q [kN/m]"
 		/>
 		
 	</div>
@@ -78,23 +69,37 @@
 		
 	</div>
 
+	<h5 align="left" style="color: rgb(0, 153, 255)">Obciążenie</h5><br>
+
+ 	<div class="form-group">
+		<label for="q_def">Obciążenie równomiernie rozłożone (wartość obliczeniowa)</label>
+		<input
+			type="text"
+			class="form-control"
+			id="q_def"
+			name="q_def"
+			placeholder="q [kN/m]"
+		/>
+		
+	</div>
+
+ 	<div class="form-group">
+		<label for="des_sit">Sytuacja obliczeniowa:</label>
+		<select
+			class="form-control"
+			id="des_sit"
+			name="des_sit">
+				<option>trwała lub przejściowa</option>
+				<option>wyjątkowa</option>
+		</select>
+		
+	</div>
 	
-	<br />
-
-	<button type="submit" class="btn btn-primary btn-sm">Oblicz siły wewnętrzne</button>
-
-</form>
-
-
-<!-- <h3 align="left">Wymiarowanie przekroju</h3><br>
-
-
-
-<form method="POST">
+	<h5 align="left" style="color: rgb(0, 153, 255)">Dane materiałowe</h5><br>
 
 
 	<div class="form-group">
-		<label for="strength_class">Klasa wytrzymałości betonu:</label>
+		<label for="strength_class">Klasa betonu:</label>
 		<select
 			class="form-control"
 			id="strength_class"
@@ -107,14 +112,132 @@
 		
 	</div>
 
+	<div class="form-group">
+		<label for="steel_class">Klasa stali:</label>
+		<select
+			class="form-control"
+			id="steel_class"
+			name="steel_class">
+				<option>A-IIIN, 500 MPa</option>
+		</select>
+	</div>
 
-	<div class="row">
+
+	<h5 align="left" style="color: rgb(0, 153, 255)">Wstępnie przyjęte średnice zbrojenia do obliczeń</h5><br>
+
+
+	<div class="form-group">
+		<label for="diameter_s">Średnica strzemion:</label>
+		<select
+			class="form-control"
+			id="diameter_s"
+			name="diameter_s">
+				<option>6</option>
+				<option>8</option>
+				<option>10</option>
+				<option>12</option>
+			</select>
+	</div>
+
+
+	<div class="form-group">
+		<label for="bottom_def_dia">Średnica zbrojenia dolnego:</label>
+		<select
+			class="form-control"
+			id="bottom_def_dia"
+			name="bottom_def_dia">
+			{% for diameter in diameters %}
+				<option>{{ diameter }}</option>
+			{% endfor %}
+
+		</select>
+		
+	</div>
+
+	<div class="form-group">
+		<label for="top_def_dia">Średnica zbrojenia górnego:</label>
+		<select
+			class="form-control"
+			id="top_def_dia"
+			name="top_def_dia">
+			{% for diameter in diameters %}
+				<option>{{ diameter }}</option>
+			{% endfor %}
+
+		</select>
+		
+	</div>
+
+	<div class="form-group">
+		<label for="cover">Otulina zbrojenia:</label>
+		<input
+			type="text"
+			class="form-control"
+			id="cover"
+			name="cover"
+			placeholder="c [mm]"
+		/>
+	</div>
+
+
+	<br />
+
+	<button type="submit" class="btn btn-primary btn-sm">Oblicz wymaganą powierzchnię zbrojenia</button>
+
+</form>
+<br>
+
+
+<h5 align="left" style="color: forestgreen">Siły wewnętrzne:</h5>
+<div>
+{%if static_scheme == "swobodnie podparta" %}
+	Maksymalny moment przęsłowy wynosi: {{ M_span }} kNm
+{% elif static_scheme == "obustronnie utwierdzona" %}
+	Maksymalny moment przęsłowy wynosi: {{ M_span }} kNm
+	<br>
+	Maksymalny moment podporowy wynosi: {{ M_support }} kNm
+{% endif %}
+</div>
+<br>
+
+
+<h5 align="left" style="color: forestgreen">Pole przekroju zbrojenia - Stan Graniczny Nośności</h5><br>
+
+<b>Pole przekroju zbrojenia rozciąganego:</b><br>
+<br>
+minimalne: {{ A_smin }}cm<sup>2</sup><br>
+
+<!-- maksymalne: {{ A_smax }}cm<sup>2</sup><br> -->
+
+wymagane ze względu na zginanie: {{ A_s1 }}cm<sup>2</sup><br>
+<br>
+
+<b>Pole przekroju zbrojenia ściskanego:</b><br>
+<br>
+{% if A_0 <= A_0_lim %}
+	Dodatkowe zbrojenie ściskane nie jest obliczeniowo wymagane.
+{% else %}
+	wymagane ze względu na zginanie: {{ A_s2 }}cm<sup>2</sup>
+{% endif %}
+
+<br>
+
+<h5 align="left" style="color: forestgreen">Pole przekroju zbrojenia - Stan Graniczny Użytkowalności</h5><br>
+
+
+<h2 align="left" style="color: black">Przyjmowanie zbrojenia</h2><br>
+
+<h5 align="left">Przyjęte zbrojenie dolne:</h3><br>
+
+<form method="POST" id="reinforcement">
+
+<div class="row">
 		<div class="col">
-			<label for="diameter">Średnica pręta głównego (typ 1, rząd 1)</label>
+			<label for="diameter11">Średnica pręta głównego (typ 1):</label>
 			<select
 				class="form-control"
-				id="diameter"
-				name="diameter">
+				id="diameter11"
+				name="diameter11">
 				{% for diameter in diameters %}
 					<option>{{ diameter }}</option>
 				{% endfor %}
@@ -122,11 +245,11 @@
 		</div>
 
 		<div class="col">
-			<label for="quantity">Liczba sztuk prętów (typ 1, rząd 1)</label>
+			<label for="quantity11">Liczba sztuk prętów (typ 1):</label>
 			<select
 				class="form-control"
-				id="quantity"
-				name="quantity">
+				id="quantity11"
+				name="quantity11">
 				{% for option in range(2, 9) %}
 					<option>{{ option }}</option>
 				{% endfor %}
@@ -134,44 +257,69 @@
 		</div>
 	
 		<div class="col">
-			<label for="cover">Otulina zbrojenia (typ 1, rząd 1)</label>
-			<input
-				type="text"
+			<label for="diameter12">Średnica pręta głównego (typ 2):</label>
+			<select
 				class="form-control"
-				id="cover"
-				name="cover"
-				placeholder="c [mm]"
-			/>
+				id="diameter12"
+				name="diameter12">
+				{% for diameter in diameters %}
+					<option>{{ diameter }}</option>
+				{% endfor %}
+			</select>
 		</div>
+
+		<div class="col">
+			<label for="quantity12">Liczba sztuk prętów (typ 2):</label>
+			<select
+				class="form-control"
+				id="quantity12"
+				name="quantity12">
+				{% for option in range(0, 9) %}
+					<option>{{ option }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	
 	</div><br>
 
 
-	<div class="form-group">
-			<label for="diameter_s">Średnica strzemion</label>
+<h5 align="left">Przyjęte zbrojenie górne:</h3><br>
+
+	<div class="row">
+		<div class="col">
+			<label for="diameter11top">Średnica pręta głównego:</label>
 			<select
 				class="form-control"
-				id="diameter_s"
-				name="diameter_s">
-					<option>6</option>
-					<option>8</option>
-					<option>10</option>
-					<option>12</option>
+				id="diameter11top"
+				name="diameter11top">
+				{% for diameter in diameters %}
+					<option>{{ diameter }}</option>
+				{% endfor %}
 			</select>
-	</div>
+		</div>
+
+		<div class="col">
+			<label for="quantity11top">Liczba sztuk prętów:</label>
+			<select
+				class="form-control"
+				id="quantity11top"
+				name="quantity11top">
+				{% for option in range(2, 9) %}
+					<option>{{ option }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	
+	</div><br>
 
 
-	<button type="submit" class="btn btn-primary btn-sm">Sprawdź nośność przekroju</button>
+	<button type="submit" class="btn btn-primary btn-sm">Sprawdź powierzchnię zbrojenia</button>
 
 </form>
-<br>
 
 
-<div>
 
-    <img alt="concrete_cross_section" src="/static/concrete_cross_section.jpg" style="max-width: 20%; height: auto;">
 
-</div>
-<br> -->
 
 {% endblock %}
 
