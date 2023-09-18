@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<!-- <br />
+<br />
 <h1 align="center">Belka żelbetowa - wymiarowanie</h1><br>
 
 
@@ -32,12 +32,38 @@ Szerokość przekroju: {{ width }} cm<br>
 	Maksymalny moment podporowy wynosi: {{ M_support }} kNm
 {% endif %}
 </div>
-<br> -->
+<br>
 
 
+<h5 align="left" style="color: forestgreen">Pole przekroju zbrojenia - Stan Graniczny Nośności</h5><br>
 
-<h5 align="left">Przyjęte zbrojenie dolne:</h3><br>
+<b>Pole przekroju zbrojenia rozciąganego:</b><br>
+<br>
+minimalne: {{ A_smin }}cm<sup>2</sup><br>
 
+<!-- maksymalne: {{ A_smax }}cm<sup>2</sup><br> -->
+
+wymagane ze względu na zginanie: {{ A_s1_req }}cm<sup>2</sup><br>
+<br>
+
+<b>Pole przekroju zbrojenia ściskanego:</b><br>
+<br>
+{% if A_0 <= A_0_lim %}
+	Dodatkowe zbrojenie ściskane nie jest obliczeniowo wymagane.
+{% else %}
+	wymagane ze względu na zginanie: {{ A_s2_req }}cm<sup>2</sup>
+{% endif %}
+
+<br>
+
+<h5 align="left" style="color: forestgreen">Pole przekroju zbrojenia - Stan Graniczny Użytkowalności</h5><br>
+
+
+<h2 align="left" style="color: black">Przyjmowanie zbrojenia</h2><br>
+
+<h5 align="left">Przyjęte zbrojenie dolne:</h5><br>
+
+<form method="POST">
 
 	<div class="row">
 		<div class="col">
@@ -91,7 +117,7 @@ Szerokość przekroju: {{ width }} cm<br>
 	</div><br>
 
 
-<h5 align="left">Przyjęte zbrojenie górne:</h3><br>
+	<h5 align="left">Przyjęte zbrojenie górne:</h5><br>
 
 	<div class="row">
 		<div class="col">
@@ -121,22 +147,42 @@ Szerokość przekroju: {{ width }} cm<br>
 	</div><br>
 
 
-	<button type="submit" class="btn btn-primary btn-sm">Sprawdź nośność przekroju</button>
+	<button type="submit" class="btn btn-primary btn-sm">Sprawdź zbrojenie</button>
 
 </form>
 <br>
 
+{% if M_Rd != '' %}
 
-<div>
+	<h5 align="left" style="color: forestgreen;">Przyjęta powierzchnia zbrojenia:</h5>
 
-    <img alt="concrete_cross_section" src="/static/concrete_cross_section.jpg" style="max-width: 20%; height: auto;">
+	Zbrojenie dolne: {{ A_s1 }}cm<sup>2</sup><br>
+	Zbrojenie górne: {{ A_s2 }}cm<sup>2</sup><br>
 
-</div>
-<br>
+	Warunek stanu granicznego nośności:<br>
 
-<div>
-	<a href="/belka_zelbetowa_wyniki/" target="blank"><button class='btn btn-primary btn-sm'>Zapisz raport</button></a>
-</div>
+	{% if M_span <= M_Rd %}
+		M<sub>Rd</sub> = {{ M_Rd }} kNm <b>></b> M<sub>Ed</sub> = {{ M_span }} kNm<br>
+		<b><u>Nosność przekroju spełniona.</u></b><br>
+
+	{% else %}
+		M<sub>Rd</sub> = {{ M_Rd }} kNm <b><</b> M<sub>Ed</sub> = {{ M_span }} kNm<br>
+		<p style="color: red;"><b><u>Nośność przekroju nie jest spełniona.</u></b></p><br>
+
+	{% endif %}
+
+	<div>
+
+	    <img alt="concrete_cross_section" src="/static/concrete_cross_section.jpg" style="max-width: 10%; height: auto;">
+
+	</div>
+	<br>
+
+	<div>
+		<a href="/belka_zelbetowa_wyniki/" target="blank"><button class='btn btn-primary btn-sm'>Zapisz raport</button></a>
+	</div>
+
+{% endif %}
 
 <br>
 
