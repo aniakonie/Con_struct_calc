@@ -7,11 +7,11 @@ def reinf_area_calc(M_span, width, height, des_sit, strength_class, f_ck, cover,
 	b = 0.01*width
 	h = 0.01*height
 
-	if des_sit == "trwała lub przejściowa":
+	if des_sit == "persistent or transient":
 		gamma_c = 1.5
 		gamma_s = 1.15
 
-	if des_sit == "wyjątkowa":
+	if des_sit == "accidental":
 		gamma_c = 1.2
 		gamma_s = 1.0
 
@@ -87,11 +87,11 @@ def bending_moment_resistance(M_span, width, height, des_sit, strength_class, f_
 	b = 0.01*width
 	h = 0.01*height
 
-	if des_sit == "trwała lub przejściowa":
+	if des_sit == "persistent or transient":
 		gamma_c = 1.5
 		gamma_s = 1.15
 
-	if des_sit == "wyjątkowa":
+	if des_sit == "accidental":
 		gamma_c = 1.2
 		gamma_s = 1.0
 
@@ -159,66 +159,9 @@ def bending_moment_resistance(M_span, width, height, des_sit, strength_class, f_
 			sigma_s1 = (eta*f_cd*b*lambd*x + f_yd*A_s2)/A_s1
 
 	M_Rd = eta*f_cd*1000*b*lambd*x*(d-0.5*lambd*x) + sigma_s2*1000*A_s2*(d-a_2)
+	M_Rd = round(M_Rd, 3)
 
 	return M_Rd
-
-
-
-
-
-def deflections(f_ck, width, height):
-
-
-#moment wywołany charakterystycznym obciążeniem całkowitym i charakterystycznym obciążeniem długotrwałym
-
-
-	E_c_eff = E_cm/(1 + phi)
-
-	#do obliczenia:
-	phi = 2.0
-
-	#przyjeto cement N
-	alpha_ds1 = 4
-	alpha_ds2 = 0.12
-	#przyjeto RH=50%
-	RH = 50
-	RH_0 = 100
-	beta_RH = 1.55*(1-(RH/RH_0)**3)
-	f_cm = f_ck + 8
-	f_cm0 = 10
-
-	eps_cd_0 = 0.85*(220 + 110*alpha_ds1)*math.exp(-alpha_ds2*f_cm/f_cm0)*beta_RH*10**(-6)
-
-	A_c = width*10*height*10
-	u = 2*width*10+2*height*10
-	#h_0 in mm
-	h_0 = 2*A_c/u
-
-
-	if h_0 >= 500:
-		k_h = 0.7
-	elif h_0 >= 300:
-		k_h = 0.75 - ((h_0 - 300)/(500-300)*(0.75-0.70))
-	elif h_0 >= 200:
-		k_h = 0.85 - ((h_0 - 200)/(300-200)*(0.85-0.75))
-	elif h_0 >= 100:
-		k_h = 1.0 - ((h_0 - 100)/(200-100)*(1.0-0.85))
-	elif h_0 < 100:
-		k_h = 1.0
-
-
-
-
-	eps_cd = k_h*eps_cd_0
-	eps_ca = 2.5*(f_ck - 10)*10**(-6)
-
-
-	eps_cs = eps_cd + eps_ca
-
-
-	alpha_m = 5/48
-	alpha_cs = 1/8
-
 
 
 

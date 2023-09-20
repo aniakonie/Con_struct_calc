@@ -4,8 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- means: assume that the width of the page is the same as the width of the device -->
-
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -17,9 +15,6 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
-
-    <!-- to są linki bezpośrednio ze strony bootstrapa -->
-
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
@@ -37,8 +32,7 @@
         <div class="navbar-nav">
           {% if user.is_authenticated %}
           <a class="nav-item nav-link" id="home" href="/">Home</a>
-          <a class="nav-item nav-link" id="zakotwienie" href="/zakotwienie">Zakotwienie</a>
-          <a class="nav-item nav-link" id="belka_zelbetowa" href="/belka_zelbetowa">Belka żelbetowa</a>
+          <a class="nav-item nav-link" id="RC_beam_design" href="/RC_beam_design">RC Beam Design</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>

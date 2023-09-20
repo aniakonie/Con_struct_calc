@@ -2,10 +2,8 @@ import cv2 as cv
 import numpy as np
 import os
 
-#BGR, nie RGB
 
 def cross_section_img(diameter11, diameter12, diameter11top, quantity11, quantity12, quantity11top, cover, diameter_s, height, width):
-
 
 	height_mm = height*10
 	width_mm = width*10

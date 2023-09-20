@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}Reinforced concrete beam design{% endblock %}
+
+{% block content %}
+
+<br />
+<h1 align="center">REINFORCED CONCRETE BEAM DESIGN</h1><br>
+
+<h3 align="left">Applied data</h3><br>
+
+<div class="container text-left">
+  <div class="row row-cols-2">
+    <div class="col">Static scheme:</div>
+    <div class="col"><b>simply supported</b></div>
+    <div class="col">Design situation:</div>
+    <div class="col"><b>{{ des_sit }}</b></div>
+    <div class="col">Effective length:</div>
+    <div class="col"><b>{{ length }} m</b></div>
+    <div class="col">Uniform distributed load (design value):</div>
+    <div class="col"><b>{{ q_def }} kN/m</b></div>
+    <div class="col">Height of the cross section:</div>
+    <div class="col"><b>{{ height }} cm</b></div>
+    <div class="col">Width of the cross section:</div>
+    <div class="col"><b>{{ width }} cm</b></div>
+  </div>
+</div>
+<br>
+
+<h3 align="left">Reinforcement area - Ultimate Limit State</h3><br>
+
+<h6 align="left" style="color: rgb(0, 153, 255)">Internal forces</h6>
+
+<div class="container text-left">
+  <div class="row row-cols-2">
+    <div class="col">Bending moment (design value):</div>
+    <div class="col"><b>{{ M_span }} kNm</b></div>
+   </div>
+</div>
+<br>
+
+<h6 align="left" style="color: rgb(0, 153, 255)">Bottom reinforcement area</h6>
+
+<div class="container text-left">
+  <div class="row row-cols-2">
+    <div class="col">Minimum reinforcement area:</div>
+    <div class="col"><b>{{ A_smin }}cm<sup>2</sup></b></div>
+    <div class="col">Reinforcement area for bending resistance:</div>
+    <div class="col"><b>{{ A_s1_req }}cm<sup>2</sup></b></div>
+   </div>
+</div>
+<br>
+
+<h6 align="left" style="color: rgb(0, 153, 255)">Top reinforcement area</h6>
+
+{% if A_0 <= A_0_lim %}
+	Additional compression reinforcement is not required.
+{% else %}
+	<div class="container text-left">
+	  <div class="row row-cols-2">
+	    <div class="col">Required reinforcement area:</div>
+	    <div class="col"><b>{{ A_s2_req }}cm<sup>2</sup></b></div>
+	   </div>
+	</div>
+{% endif %} <br>
+<br>
+
+<h3 align="left" style="color: black">Reinforcement design</h3><br>
+
+<h5 align="left" style="color: rgb(0, 153, 255)">Bottom reinforcement</h5>
+<br>
+
+<form method="POST">
+
+	<div class="row">
+		<div class="col">
+			<label for="diameter11">Main rebar diameter (type 1):</label>
+			<select
+				class="form-control"
+				id="diameter11"
+				name="diameter11">
+				{% for diameter in diameters %}
+					<option>{{ diameter }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="col">
+			<label for="quantity11">Quantity (type 1):</label>
+			<select
+				class="form-control"
+				id="quantity11"
+				name="quantity11">
+				{% for option in range(2, 9) %}
+					<option>{{ option }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	
+		<div class="col">
+			<label for="diameter12">Main rebar diameter (type 2):</label>
+			<select
+				class="form-control"
+				id="diameter12"
+				name="diameter12">
+				{% for diameter in diameters %}
+					<option>{{ diameter }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="col">
+			<label for="quantity12">Quantity (type 2):</label>
+			<select
+				class="form-control"
+				id="quantity12"
+				name="quantity12">
+				{% for option in range(0, 9) %}
+					<option>{{ option }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	
+	</div><br>
+
+
+<h5 align="left" style="color: rgb(0, 153, 255)">Top reinforcement</h5>
+<br>
+
+	<div class="row">
+		<div class="col">
+			<label for="diameter11top">Main rebar diameter:</label>
+			<select
+				class="form-control"
+				id="diameter11top"
+				name="diameter11top">
+				{% for diameter in diameters %}
+					<option>{{ diameter }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="col">
+			<label for="quantity11top">Quantity:</label>
+			<select
+				class="form-control"
+				id="quantity11top"
+				name="quantity11top">
+				{% for option in range(2, 9) %}
+					<option>{{ option }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	
+	</div><br>
+
+
+	<button type="submit" class="btn btn-primary btn-sm">Calculate ULS condition</button>
+
+</form>
+<br>
+<br>
+{% if M_Rd != '' %}
+	
+	<h5 align="left" style="color: rgb(0, 153, 255)">Applied reinforcement area</h5>
+	<br>
+
+	<div class="container text-left">
+	  <div class="row row-cols-2">
+	    <div class="col">Top reinforcement area:</div>
+	    <div class="col"><b>{{ A_s1 }}cm<sup>2</sup></b></div>
+	    <div class="col">Bottom reinforcement area:</div>
+	    <div class="col"><b>{{ A_s2 }}cm<sup>2</sup></b></div>
+	   </div>
+	</div>
+	<br>
+
+	<h5 align="left" style="color: rgb(0, 153, 255)">Ultimate Limit State condition</h5>
+	<br>
+	{% if M_span <= M_Rd %}
+		M<sub>Rd</sub> = <b>{{ M_Rd }} kNm</b> > M<sub>Ed</sub> = <b>{{ M_span }} kNm</b><br>
+		<br>
+		<p style="color: green;"><b><u>ULS condition is met.</u></b></p><br>
+
+	{% else %}
+		M<sub>Rd</sub> = <b>{{ M_Rd }} kNm</b> < M<sub>Ed</sub> = <b>{{ M_span }} kNm</b><br>
+		<br>
+		<p style="color: red;"><b><u>ULS is not met.</u></b></p><br>
+
+	{% endif %}
+	<br>
+	<div>
+
+	    <img alt="concrete_cross_section" src="/static/concrete_cross_section.jpg" style="max-width: 10%; height: auto;">
+
+	</div>
+	<br>
+
+	<div>
+		<a href="/beam_design_results/" target="blank"><button class='btn btn-primary btn-sm'>Print a report</button></a>
+	</div>
+
+{% endif %}
+
+<br>
+
+{% endblock %}
+
+
+
