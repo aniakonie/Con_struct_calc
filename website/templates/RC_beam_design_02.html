@@ -154,51 +154,62 @@
 	
 	</div><br>
 
-
 	<button type="submit" class="btn btn-primary btn-sm">Calculate ULS condition</button>
 
 </form>
 <br>
 <br>
+
 {% if M_Rd != '' %}
-	
-	<h5 align="left" style="color: rgb(0, 153, 255)">Applied reinforcement area</h5>
-	<br>
+
+<h5 align="left" style="color: rgb(0, 153, 255)">Applied reinforcement area</h5>
+<br>
 
 	<div class="container text-left">
-	  <div class="row row-cols-2">
-	    <div class="col">Top reinforcement area:</div>
-	    <div class="col"><b>{{ A_s1 }}cm<sup>2</sup></b></div>
-	    <div class="col">Bottom reinforcement area:</div>
-	    <div class="col"><b>{{ A_s2 }}cm<sup>2</sup></b></div>
-	   </div>
+		<div class="row row-cols-2">
+		  <div class="col">Bottom reinforcement area:</div>
+		  <div class="col"><b>{{ A_s1 }}cm<sup>2</sup>
+		  {% if quantity12 == 0 %}
+		  	({{quantity11}} &#8960 {{diameter11}})
+		  {% else %}
+		  	({{quantity11}} &#8960 {{diameter11}} + {{quantity12}} &#8960 {{diameter12}})
+		  {% endif %}</b></div>
+		  <div class="col">Top reinforcement area:</div>
+		  <div class="col"><b>{{ A_s2 }}cm<sup>2</sup> ({{quantity11top}} &#8960 {{diameter11top}})</b></div>
+		</div>
 	</div>
-	<br>
+<br>
+	{% if A_s1 < A_smin %}
+		<p style="color: red;"><b><u>Applied bottom reinforcement area must be greater than minimum value.</u></b></p><br>
+	{% else %}<br>
 
-	<h5 align="left" style="color: rgb(0, 153, 255)">Ultimate Limit State condition</h5>
-	<br>
-	{% if M_span <= M_Rd %}
-		M<sub>Rd</sub> = <b>{{ M_Rd }} kNm</b> > M<sub>Ed</sub> = <b>{{ M_span }} kNm</b><br>
+		<h5 align="left" style="color: rgb(0, 153, 255)">Ultimate Limit State condition</h5>
 		<br>
-		<p style="color: green;"><b><u>ULS condition is met.</u></b></p><br>
+		{% if M_span <= M_Rd %}
 
-	{% else %}
-		M<sub>Rd</sub> = <b>{{ M_Rd }} kNm</b> < M<sub>Ed</sub> = <b>{{ M_span }} kNm</b><br>
+			M<sub>Rd</sub> = <b>{{ M_Rd }} kNm</b> > M<sub>Ed</sub> = <b>{{ M_span }} kNm</b><br>
+			<br>
+			<p style="color: green;"><b><u>ULS condition is met.</u></b></p><br>
+
+		{% else %}
+
+			M<sub>Rd</sub> = <b>{{ M_Rd }} kNm</b> < M<sub>Ed</sub> = <b>{{ M_span }} kNm</b><br>
+			<br>
+			<p style="color: red;"><b><u>ULS is not met.</u></b></p><br>
+
+		{% endif %}
 		<br>
-		<p style="color: red;"><b><u>ULS is not met.</u></b></p><br>
+		<div>
 
+		    <img alt="concrete_cross_section" src="/static/concrete_cross_section.jpg" style="max-width: 10%; height: auto;">
+
+		</div>
+		<br>
+
+		<div>
+			<a href="/beam_design_results/" target="blank"><button class='btn btn-primary btn-sm'>Print a report</button></a>
+		</div>
 	{% endif %}
-	<br>
-	<div>
-
-	    <img alt="concrete_cross_section" src="/static/concrete_cross_section.jpg" style="max-width: 10%; height: auto;">
-
-	</div>
-	<br>
-
-	<div>
-		<a href="/beam_design_results/" target="blank"><button class='btn btn-primary btn-sm'>Print a report</button></a>
-	</div>
 
 {% endif %}
 

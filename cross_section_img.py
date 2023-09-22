@@ -142,7 +142,7 @@ def cross_section_img(diameter11, diameter12, diameter11top, quantity11, quantit
 			rebar_center = rebar_center + rebar_spacing_top + diameter11top
 
 
-	path = 'C:\\Users\\konie\\OneDrive\\STUFF\\CODING\\01 ZAKOTWIENIE PRĘTÓW\\website\\static'
+	path = 'C:\\Users\\konie\\OneDrive\\STUFF\\CODING\\__PROJECTS\\RC_BEAM DESIGN\\website\\static'
 
 	os.chdir(path)
 	cv.imwrite('concrete_cross_section.jpg', img)

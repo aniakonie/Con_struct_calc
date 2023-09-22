@@ -1,6 +1,4 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for, send_file, send_from_directory
-from flask_login import login_required, current_user
-from . import db
 import json
 import math
 from cross_section_img import cross_section_img
@@ -17,7 +15,6 @@ f_ck_dict = {"C12/15":12, "C16/20":16, "C20/25":20, "C25/30":25, "C30/37":30, "C
 diameters = [6, 8, 10, 12, 16, 20, 25, 32, 40]
 
 @views_RC_beam_design.route('/RC_beam_design', methods=['GET', 'POST'])
-@login_required
 
 def RC_beam_design_01():
 
@@ -44,16 +41,15 @@ def RC_beam_design_01():
 								bottom_def_dia=bottom_def_dia, top_def_dia=top_def_dia, cover=cover))
 
 		
-	return render_template("RC_beam_design_01.html", user=current_user, strength_classes=strength_classes, diameters=diameters)
+	return render_template("RC_beam_design_01.html", strength_classes=strength_classes, diameters=diameters)
 
 
 @views_RC_beam_design.route('/RC_beam_design_02', methods=['GET', 'POST'])
-@login_required
 
 def RC_beam_design_02():
 
 
-	M_Rd = A_s1 = A_s2 = A_s1_req = A_s2_req = A_0 = A_0_lim = A_smin = A_smax = M_span = M_support = ""
+	M_Rd = A_s1 = A_s2 = A_s1_req = A_s2_req = A_0 = A_0_lim = A_smin = A_smax = M_span = M_support = diameter11 = diameter12 = quantity11 = quantity12 = diameter11top = quantity11top = ""
 
 	length = float(request.args.get('length'))
 	height = int(request.args.get('height'))
@@ -122,20 +118,31 @@ def RC_beam_design_02():
 			as1 = round(0.01*3.14159*(quantity11*diameter11**2/4 + quantity12*diameter12**2/4), 2)
 
 			f = open("Beam_design_results.txt", "w", encoding="utf-8")
-			f.write(f"Bottom reinforcement area is equal to: {as1}cm2")
+			
+			f.write("REINFORCED CONCRETE BEAM - RESULTS\n\n")
+			f.write("Static scheme: simply supported\n")
+			f.write(f"Design situation: {des_sit}\n")
+			f.write(f"Effective length: {length}m\n")
+			f.write(f"Uniform distributed load (design value): {q_def}kN/m\n")
+			f.write(f"Height of the cross section: {height}cm\n")
+			f.write(f"Width of the cross section: {width}cm\n\n")
+			f.write(f"Bending moment (design value): {M_span}kN/m\n\n")
+			f.write("Applied reinforcement area:\n\n")
+			f.write(f"Bottom reinforcement area: {A_s1}cm2\n")
+			f.write(f"Top reinforcement area: {A_s2}cm2\n\n")
+			f.write(f"Bending moment resistance: {M_Rd}kN/m\n\n")
 			f.close()
 
 
-
-	return render_template("RC_beam_design_02.html", user=current_user, M_span=M_span, length=length,
+	return render_template("RC_beam_design_02.html", M_span=M_span, length=length,
 							height=height, q_def=q_def, width=width, f_ck_dict=f_ck_dict, diameters=diameters, des_sit=des_sit, A_s1_req=A_s1_req, A_s2_req=A_s2_req,
-							A_0=A_0, A_0_lim=A_0_lim, A_smin=A_smin, A_smax=A_smax, A_s1=A_s1, A_s2=A_s2, M_Rd=M_Rd)
+							A_0=A_0, A_0_lim=A_0_lim, A_smin=A_smin, A_smax=A_smax, A_s1=A_s1, A_s2=A_s2, M_Rd=M_Rd, quantity11top=quantity11top, diameter11top=diameter11top,
+							diameter11=diameter11, diameter12=diameter12, quantity11=quantity11, quantity12=quantity12)
 
 
 
 
 @views_RC_beam_design.route('/beam_design_results/')
-@login_required
 
 def beam_design_results():
-	return send_file('C:\\Users\\konie\\OneDrive\\STUFF\\CODING\\01 ZAKOTWIENIE PRĘTÓW\\website\\static\\Beam_design_results.txt', as_attachment=True)
+	return send_file('C:\\Users\\konie\\OneDrive\\STUFF\\CODING\\__PROJECTS\\RC_BEAM DESIGN\\website\\static\\Beam_design_results.txt', as_attachment=True)
