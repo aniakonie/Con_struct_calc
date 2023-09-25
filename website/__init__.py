@@ -5,6 +5,8 @@ from os import path
 def create_app():
 	app = Flask(__name__)
 
+	app.config['SECRET_KEY'] = 'ferfrfedf'
+
 	from .views import views
 	from .views_RC_beam_design import views_RC_beam_design
 
