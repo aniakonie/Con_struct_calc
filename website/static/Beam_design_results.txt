@@ -2,17 +2,17 @@ REINFORCED CONCRETE BEAM - RESULTS
 
 Static scheme: simply supported
 Design situation: persistent or transient
-Effective length: 3.0m
-Uniform distributed load (design value): 4.0kN/m
-Height of the cross section: 60cm
+Effective length: 5.0m
+Uniform distributed load (design value): 10.0kN/m
+Height of the cross section: 100cm
 Width of the cross section: 25cm
 
-Bending moment (design value): 8.719kN/m
+Bending moment (design value): 50.781kN/m
 
 Applied reinforcement area:
 
-Bottom reinforcement area: 2.26cm2
+Bottom reinforcement area: 8.04cm2
 Top reinforcement area: 0.57cm2
 
-Bending moment resistance: 54.204kN/m
+Bending moment resistance: 306.847kN/m
 
