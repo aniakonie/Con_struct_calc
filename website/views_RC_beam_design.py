@@ -103,7 +103,7 @@ def RC_beam_design_02():
 			flash('Spacing of bars must be greater than 20mm.')
 
 		else:
-			cross_section_img(diameter11, diameter12, diameter11top, quantity11, quantity12, quantity11top, cover, diameter_s, height, width)
+			# cross_section_img(diameter11, diameter12, diameter11top, quantity11, quantity12, quantity11top, cover, diameter_s, height, width)
 
 			A_s1 = 0.01*3.14159*(quantity11*diameter11**2/4 + quantity12*diameter12**2/4)
 			A_s2 = 0.01*3.14159*quantity11top*diameter11top**2/4
@@ -117,21 +117,21 @@ def RC_beam_design_02():
 
 			as1 = round(0.01*3.14159*(quantity11*diameter11**2/4 + quantity12*diameter12**2/4), 2)
 
-			f = open("Beam_design_results.txt", "w", encoding="utf-8")
+			# f = open("Beam_design_results.txt", "w", encoding="utf-8")
 			
-			f.write("REINFORCED CONCRETE BEAM - RESULTS\n\n")
-			f.write("Static scheme: simply supported\n")
-			f.write(f"Design situation: {des_sit}\n")
-			f.write(f"Effective length: {length}m\n")
-			f.write(f"Uniform distributed load (design value): {q_def}kN/m\n")
-			f.write(f"Height of the cross section: {height}cm\n")
-			f.write(f"Width of the cross section: {width}cm\n\n")
-			f.write(f"Bending moment (design value): {M_span}kN/m\n\n")
-			f.write("Applied reinforcement area:\n\n")
-			f.write(f"Bottom reinforcement area: {A_s1}cm2\n")
-			f.write(f"Top reinforcement area: {A_s2}cm2\n\n")
-			f.write(f"Bending moment resistance: {M_Rd}kN/m\n\n")
-			f.close()
+			# f.write("REINFORCED CONCRETE BEAM - RESULTS\n\n")
+			# f.write("Static scheme: simply supported\n")
+			# f.write(f"Design situation: {des_sit}\n")
+			# f.write(f"Effective length: {length}m\n")
+			# f.write(f"Uniform distributed load (design value): {q_def}kN/m\n")
+			# f.write(f"Height of the cross section: {height}cm\n")
+			# f.write(f"Width of the cross section: {width}cm\n\n")
+			# f.write(f"Bending moment (design value): {M_span}kN/m\n\n")
+			# f.write("Applied reinforcement area:\n\n")
+			# f.write(f"Bottom reinforcement area: {A_s1}cm2\n")
+			# f.write(f"Top reinforcement area: {A_s2}cm2\n\n")
+			# f.write(f"Bending moment resistance: {M_Rd}kN/m\n\n")
+			# f.close()
 
 
 	return render_template("RC_beam_design_02.html", M_span=M_span, length=length,
@@ -142,7 +142,7 @@ def RC_beam_design_02():
 
 
 
-@views_RC_beam_design.route('/beam_design_results/')
+# @views_RC_beam_design.route('/beam_design_results/')
 
-def beam_design_results():
-	return send_file('C:\\Users\\konie\\OneDrive\\STUFF\\CODING\\__PROJECTS\\RC_BEAM DESIGN\\website\\static\\Beam_design_results.txt', as_attachment=True)
+# def beam_design_results():
+# 	return send_file('C:\\Users\\konie\\OneDrive\\STUFF\\CODING\\__PROJECTS\\RC_BEAM DESIGN\\website\\static\\Beam_design_results.txt', as_attachment=True)
