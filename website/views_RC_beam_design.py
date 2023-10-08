@@ -31,11 +31,10 @@ def RC_beam_design_01():
 		top_def_dia = request.form.get('top_def_dia')
 		cover = request.form.get('cover')
 
-		if '' in {length, height, width, q_def, cover}:
+		if '' in {length, height, width, q_def}:
 			flash('Please fill in all fields.')
 
 		else:
-
 			return redirect(url_for('views_RC_beam_design.RC_beam_design_02', length=length, height=height,
 								width=width, q_def=q_def, des_sit=des_sit, strength_class=strength_class, diameter_s=diameter_s,
 								bottom_def_dia=bottom_def_dia, top_def_dia=top_def_dia, cover=cover))
@@ -137,7 +136,7 @@ def RC_beam_design_02():
 	return render_template("RC_beam_design_02.html", M_span=M_span, length=length,
 							height=height, q_def=q_def, width=width, f_ck_dict=f_ck_dict, diameters=diameters, des_sit=des_sit, A_s1_req=A_s1_req, A_s2_req=A_s2_req,
 							A_0=A_0, A_0_lim=A_0_lim, A_smin=A_smin, A_smax=A_smax, A_s1=A_s1, A_s2=A_s2, M_Rd=M_Rd, quantity11top=quantity11top, diameter11top=diameter11top,
-							diameter11=diameter11, diameter12=diameter12, quantity11=quantity11, quantity12=quantity12)
+							diameter11=diameter11, diameter12=diameter12, quantity11=quantity11, quantity12=quantity12, cover=cover)
 
 
 

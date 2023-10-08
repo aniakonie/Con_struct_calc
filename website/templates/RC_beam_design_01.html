@@ -19,13 +19,15 @@ This program allows to determine the required area of longitudinal reinforcement
 	<div class="form-group">
 		<label for="length">Effective length:</label>
 		<input
-			type="text"
+			type="number"
 			class="form-control"
 			id="length"
 			name="length"
+			min="0.90"
+			max="10"
+			step="0.05"
 			placeholder="l [m]"
-		/>
-		
+		/>	
 	</div>
 
  	<div class="form-group">
@@ -35,19 +37,23 @@ This program allows to determine the required area of longitudinal reinforcement
 			class="form-control"
 			id="height"
 			name="height"
+			min="25"
+			max="100"
+			step="5"		
 			placeholder="h [cm]"
 		/>
-		
 	</div>
-
 
  	<div class="form-group">
 		<label for="width">Width of the cross section:</label>
 		<input
-			type="text"
+			type="number"
 			class="form-control"
 			id="width"
 			name="width"
+			min="18"
+			max="80"
+			step="1"
 			placeholder="b [cm]"
 		/>
 		
@@ -59,10 +65,13 @@ This program allows to determine the required area of longitudinal reinforcement
  	<div class="form-group">
 		<label for="q_def">Uniform distributed load (design value):</label>
 		<input
-			type="text"
+			type="number"
 			class="form-control"
 			id="q_def"
 			name="q_def"
+			min="0"
+			max="50"
+			step="0.01"		
 			placeholder="q [kN/m]"
 		/>
 		
@@ -117,13 +126,12 @@ This program allows to determine the required area of longitudinal reinforcement
 			class="form-control"
 			id="diameter_s"
 			name="diameter_s">
-				<option>6</option>
-				<option>8</option>
-				<option>10</option>
-				<option>12</option>
+				<option value="6">6 mm</option>
+				<option value="8">8 mm</option>
+				<option value="10">10 mm</option>
+				<option value="12">12 mm</option>
 		</select>
 	</div>
-
 
 	<div class="form-group">
 		<label for="bottom_def_dia">Bottom rebar diameter:</label>
@@ -132,11 +140,9 @@ This program allows to determine the required area of longitudinal reinforcement
 			id="bottom_def_dia"
 			name="bottom_def_dia">
 			{% for diameter in diameters %}
-				<option>{{ diameter }}</option>
+				<option value="{{ diameter }}">{{ diameter }} mm</option>
 			{% endfor %}
-
-		</select>
-		
+		</select>		
 	</div>
 
 	<div class="form-group">
@@ -146,24 +152,22 @@ This program allows to determine the required area of longitudinal reinforcement
 			id="top_def_dia"
 			name="top_def_dia">
 			{% for diameter in diameters %}
-				<option>{{ diameter }}</option>
+				<option value="{{ diameter }}">{{ diameter }} mm</option>
 			{% endfor %}
-
-		</select>
-		
+		</select>		
 	</div>
 
 	<div class="form-group">
 		<label for="cover">Concrete cover:</label>
-		<input
-			type="text"
+		<select
 			class="form-control"
 			id="cover"
-			name="cover"
-			placeholder="c [mm]"
-		/>
+			name="cover">
+			{% for cover in range(25, 65, 5) %}
+				<option value="{{ cover }}">{{ cover }} mm</option>
+			{% endfor %}
+		</select>
 	</div>
-
 
 	<br />
 
